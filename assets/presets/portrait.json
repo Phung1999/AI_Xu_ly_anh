@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "name": "Portrait",
+    "description": "Optimized for portrait photography",
+    "author": "",
+    "created_at": "",
+    "updated_at": "",
+    "tags": [
+      "portrait",
+      "skin",
+      "beauty"
+    ],
+    "version": "1.0",
+    "category": "photography"
+  },
+  "settings": {
+    "temperature": 5,
+    "tint": 5,
+    "shadows": 10,
+    "highlights": 255,
+    "midtones": 1.05,
+    "sharpness": 0.2,
+    "contrast": 0.0,
+    "clahe_clip": 1.5,
+    "clahe_tile": 8,
+    "denoise": false,
+    "upscale": false,
+    "scale": 2
+  },
+  "pipeline_steps": [
+    {
+      "type": "white_balance",
+      "params": {
+        "temperature": 5,
+        "tint": 5
+      }
+    },
+    {
+      "type": "levels",
+      "params": {
+        "shadows": 10,
+        "midtones": 1.05
+      }
+    },
+    {
+      "type": "clahe",
+      "params": {
+        "clip_limit": 1.5
+      }
+    }
+  ],
+  "options": {}
+}

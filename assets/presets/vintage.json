@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "name": "Vintage",
+    "description": "Warm, faded vintage look",
+    "author": "",
+    "created_at": "",
+    "updated_at": "",
+    "tags": [
+      "vintage",
+      "warm",
+      "faded"
+    ],
+    "version": "1.0",
+    "category": "artistic"
+  },
+  "settings": {
+    "temperature": 25,
+    "tint": 10,
+    "shadows": 15,
+    "highlights": 240,
+    "midtones": 0.9,
+    "sharpness": 0.0,
+    "contrast": 0.0,
+    "clahe_clip": 1.0,
+    "clahe_tile": 8,
+    "denoise": false,
+    "upscale": false,
+    "scale": 2
+  },
+  "pipeline_steps": [
+    {
+      "type": "white_balance",
+      "params": {
+        "temperature": 25,
+        "tint": 10
+      }
+    },
+    {
+      "type": "levels",
+      "params": {
+        "shadows": 15,
+        "midtones": 0.9,
+        "highlights": 240
+      }
+    },
+    {
+      "type": "clahe",
+      "params": {
+        "clip_limit": 1.0
+      }
+    }
+  ],
+  "options": {}
+}

@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "name": "Landscape",
+    "description": "Enhanced colors and contrast for nature scenes",
+    "author": "",
+    "created_at": "",
+    "updated_at": "",
+    "tags": [
+      "landscape",
+      "nature",
+      "colors"
+    ],
+    "version": "1.0",
+    "category": "photography"
+  },
+  "settings": {
+    "temperature": 10,
+    "tint": 0,
+    "shadows": 5,
+    "highlights": 250,
+    "midtones": 1.1,
+    "sharpness": 0.4,
+    "contrast": 0.0,
+    "clahe_clip": 2.5,
+    "clahe_tile": 8,
+    "denoise": false,
+    "upscale": false,
+    "scale": 2
+  },
+  "pipeline_steps": [
+    {
+      "type": "white_balance",
+      "params": {
+        "temperature": 10
+      }
+    },
+    {
+      "type": "levels",
+      "params": {
+        "shadows": 5,
+        "midtones": 1.1,
+        "highlights": 250
+      }
+    },
+    {
+      "type": "clahe",
+      "params": {
+        "clip_limit": 2.5
+      }
+    },
+    {
+      "type": "sharpening",
+      "params": {
+        "amount": 0.4
+      }
+    }
+  ],
+  "options": {}
+}

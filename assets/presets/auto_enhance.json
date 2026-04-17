@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "name": "Auto Enhance",
+    "description": "Automatically enhance image quality",
+    "author": "",
+    "created_at": "",
+    "updated_at": "",
+    "tags": [
+      "auto",
+      "enhancement",
+      "recommended"
+    ],
+    "version": "1.0",
+    "category": "enhancement"
+  },
+  "settings": {
+    "temperature": 0,
+    "tint": 0,
+    "shadows": 0,
+    "highlights": 255,
+    "midtones": 1.1,
+    "sharpness": 0.0,
+    "contrast": 0.0,
+    "clahe_clip": 2.0,
+    "clahe_tile": 8,
+    "denoise": false,
+    "upscale": false,
+    "scale": 2
+  },
+  "pipeline_steps": [
+    {
+      "type": "auto_enhance",
+      "params": {
+        "mode": "moderate"
+      }
+    }
+  ],
+  "options": {
+    "auto_apply": true
+  }
+}

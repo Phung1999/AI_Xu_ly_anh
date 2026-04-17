@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "name": "Classic B&W",
+    "description": "Timeless black and white conversion",
+    "author": "",
+    "created_at": "",
+    "updated_at": "",
+    "tags": [
+      "bw",
+      "monochrome",
+      "classic"
+    ],
+    "version": "1.0",
+    "category": "artistic"
+  },
+  "settings": {
+    "temperature": 0,
+    "tint": 0,
+    "shadows": 5,
+    "highlights": 255,
+    "midtones": 1.15,
+    "sharpness": 0.4,
+    "contrast": 0.3,
+    "clahe_clip": 2.0,
+    "clahe_tile": 8,
+    "denoise": false,
+    "upscale": false,
+    "scale": 2
+  },
+  "pipeline_steps": [
+    {
+      "type": "levels",
+      "params": {
+        "shadows": 5,
+        "midtones": 1.15
+      }
+    },
+    {
+      "type": "grayscale"
+    }
+  ],
+  "options": {
+    "color_to_grayscale": true
+  }
+}
