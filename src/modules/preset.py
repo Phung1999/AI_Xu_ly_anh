@@ -6,6 +6,7 @@ Preset management for saving and loading processing configurations.
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field, asdict
@@ -82,6 +83,16 @@ class PresetManager:
             "vivid": self._create_vivid_preset(),
             "vintage": self._create_vintage_preset(),
             "bw_classic": self._create_bw_preset(),
+            "cinematic": self._create_cinematic_preset(),
+            "moody": self._create_moody_preset(),
+            "golden_hour": self._create_golden_hour_preset(),
+            "teal_orange": self._create_teal_orange_preset(),
+            "fade_matte": self._create_fade_matte_preset(),
+            "cyberpunk": self._create_cyberpunk_preset(),
+            "autumn_warmth": self._create_autumn_warmth_preset(),
+            "nordic_cool": self._create_nordic_cool_preset(),
+            "sunset_glow": self._create_sunset_glow_preset(),
+            "film_noir": self._create_film_noir_preset(),
         }
 
         for name, preset in builtin_presets.items():
@@ -225,6 +236,262 @@ class PresetManager:
             options={"color_to_grayscale": True},
         )
 
+    def _create_cinematic_preset(self) -> ProcessingPreset:
+        """Create cinematic film look preset."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Cinematic / Điện Ảnh",
+                description="Phong cách phim Hollywood với độ tương phản phong phú / Hollywood film look with rich contrast",
+                category="theme",
+                tags=["cinematic", "film", "moody", "professional"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-5,
+                tint=5,
+                shadows=-10,
+                midtones=1.15,
+                highlights=235,
+                contrast=0.25,
+                clahe_clip=2.0,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -5, "tint": 5}},
+                {"type": "levels", "params": {"shadows": -10, "midtones": 1.15, "highlights": 235}},
+                {"type": "clahe", "params": {"clip_limit": 2.0}},
+            ],
+        )
+
+    def _create_moody_preset(self) -> ProcessingPreset:
+        """Create moody dark atmospheric preset."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Moody Dark / U Ám",
+                description="Tâm trạng u ám với bóng tối sâu / Dark atmospheric mood with deep shadows",
+                category="theme",
+                tags=["moody", "dark", "atmospheric", "mystery"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-10,
+                tint=0,
+                shadows=-15,
+                midtones=1.2,
+                highlights=225,
+                contrast=0.35,
+                clahe_clip=1.5,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -10}},
+                {"type": "levels", "params": {"shadows": -15, "midtones": 1.2, "highlights": 225}},
+                {"type": "clahe", "params": {"clip_limit": 1.5}},
+            ],
+        )
+
+    def _create_golden_hour_preset(self) -> ProcessingPreset:
+        """Create warm golden hour look."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Golden Hour / Giờ Vàng",
+                description="Hiệu ứng ánh sáng hoàng hôn ấm áp / Warm sunset lighting effect",
+                category="theme",
+                tags=["golden", "warm", "sunset", "sunlight"],
+            ),
+            settings=EnhancementSettings(
+                temperature=30,
+                tint=8,
+                shadows=5,
+                midtones=1.1,
+                highlights=250,
+                contrast=0.15,
+                clahe_clip=2.0,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": 30, "tint": 8}},
+                {"type": "levels", "params": {"shadows": 5, "midtones": 1.1, "highlights": 250}},
+                {"type": "clahe", "params": {"clip_limit": 2.0}},
+            ],
+        )
+
+    def _create_teal_orange_preset(self) -> ProcessingPreset:
+        """Create teal and orange complementary color grading."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Teal & Orange / Xanh Đỏ Cam",
+                description="Màu bổ túc kinh điển của điện ảnh / Cinematic complementary color split",
+                category="theme",
+                tags=["teal", "orange", "complementary", "cinema"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-8,
+                tint=8,
+                shadows=-5,
+                midtones=1.18,
+                highlights=250,
+                contrast=0.3,
+                clahe_clip=2.5,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -8, "tint": 8}},
+                {"type": "levels", "params": {"shadows": -5, "midtones": 1.18, "highlights": 250}},
+                {"type": "clahe", "params": {"clip_limit": 2.5}},
+            ],
+        )
+
+    def _create_fade_matte_preset(self) -> ProcessingPreset:
+        """Create faded matte look."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Fade Matte / Mờ Nhẹ",
+                description="Phong cách mờ nhẹ với blacks nâng cao / Soft faded look with lifted blacks",
+                category="theme",
+                tags=["fade", "matte", "soft", "pastel"],
+            ),
+            settings=EnhancementSettings(
+                temperature=5,
+                tint=0,
+                shadows=20,
+                midtones=0.95,
+                highlights=245,
+                contrast=0.1,
+                clahe_clip=1.5,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": 5}},
+                {"type": "levels", "params": {"shadows": 20, "midtones": 0.95, "highlights": 245}},
+                {"type": "clahe", "params": {"clip_limit": 1.5}},
+            ],
+        )
+
+    def _create_cyberpunk_preset(self) -> ProcessingPreset:
+        """Create cyberpunk neon aesthetic."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Cyberpunk / Tương Lai",
+                description="Neon tương lai với màu sắc contrast cao / Neon cyberpunk with high contrast colors",
+                category="theme",
+                tags=["cyberpunk", "neon", "futuristic", "glow"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-15,
+                tint=15,
+                shadows=-10,
+                midtones=1.25,
+                highlights=235,
+                contrast=0.4,
+                clahe_clip=3.0,
+                sharpness=0.5,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -15, "tint": 15}},
+                {"type": "levels", "params": {"shadows": -10, "midtones": 1.25, "highlights": 235}},
+                {"type": "clahe", "params": {"clip_limit": 3.0}},
+                {"type": "sharpening", "params": {"amount": 0.5}},
+            ],
+        )
+
+    def _create_autumn_warmth_preset(self) -> ProcessingPreset:
+        """Create warm autumn tones."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Autumn Warmth / Thu Ấm",
+                description="Tông ấm cam đỏ giàu có của mùa thu / Rich warm orange and red autumn tones",
+                category="theme",
+                tags=["autumn", "warm", "orange", "nature"],
+            ),
+            settings=EnhancementSettings(
+                temperature=25,
+                tint=12,
+                shadows=5,
+                midtones=1.12,
+                highlights=250,
+                contrast=0.2,
+                clahe_clip=2.0,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": 25, "tint": 12}},
+                {"type": "levels", "params": {"shadows": 5, "midtones": 1.12, "highlights": 250}},
+                {"type": "clahe", "params": {"clip_limit": 2.0}},
+            ],
+        )
+
+    def _create_nordic_cool_preset(self) -> ProcessingPreset:
+        """Create cool Nordic light aesthetic."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Nordic Cool / Bắc Âu Lạnh",
+                description="Tông lạnh sạch sẽ với contrast nhẹ / Clean cool tones with soft contrast",
+                category="theme",
+                tags=["nordic", "cool", "clean", "minimal"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-15,
+                tint=-5,
+                shadows=5,
+                midtones=1.08,
+                highlights=250,
+                contrast=0.15,
+                clahe_clip=1.8,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -15, "tint": -5}},
+                {"type": "levels", "params": {"shadows": 5, "midtones": 1.08, "highlights": 250}},
+                {"type": "clahe", "params": {"clip_limit": 1.8}},
+            ],
+        )
+
+    def _create_sunset_glow_preset(self) -> ProcessingPreset:
+        """Create warm sunset glow effect."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Sunset Glow / Hoàng Hôn Rực Rỡ",
+                description="Hoàng hôn ma mị với tím và cam / Magical sunset with purple and orange",
+                category="theme",
+                tags=["sunset", "glow", "purple", "orange"],
+            ),
+            settings=EnhancementSettings(
+                temperature=20,
+                tint=5,
+                shadows=-5,
+                midtones=1.15,
+                highlights=252,
+                contrast=0.25,
+                clahe_clip=2.2,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": 20, "tint": 5}},
+                {"type": "levels", "params": {"shadows": -5, "midtones": 1.15, "highlights": 252}},
+                {"type": "clahe", "params": {"clip_limit": 2.2}},
+            ],
+        )
+
+    def _create_film_noir_preset(self) -> ProcessingPreset:
+        """Create dramatic film noir look."""
+        return ProcessingPreset(
+            metadata=PresetMetadata(
+                name="Film Noir / Phim Cổ Điển",
+                description="Trắng đen drama với độ tương phản cao / High contrast black and white drama",
+                category="theme",
+                tags=["noir", "drama", "high-contrast", "classic"],
+            ),
+            settings=EnhancementSettings(
+                temperature=-5,
+                tint=0,
+                shadows=-20,
+                midtones=1.3,
+                highlights=230,
+                contrast=0.5,
+                clahe_clip=2.0,
+                sharpness=0.4,
+            ),
+            pipeline_steps=[
+                {"type": "white_balance", "params": {"temperature": -5}},
+                {"type": "levels", "params": {"shadows": -20, "midtones": 1.3, "highlights": 230}},
+                {"type": "clahe", "params": {"clip_limit": 2.0}},
+                {"type": "grayscale"},
+                {"type": "sharpening", "params": {"amount": 0.4}},
+            ],
+            options={"color_to_grayscale": True},
+        )
+
     def save_preset(self, name: str, preset: ProcessingPreset):
         """Save a preset."""
         preset.metadata.updated_at = datetime.now().isoformat()
@@ -288,7 +555,12 @@ class PresetManager:
 
     def _save_preset_to_file(self, preset: ProcessingPreset):
         """Save preset to JSON file."""
-        preset_path = self.preset_dir / f"{preset.metadata.name.lower().replace(' ', '_')}.json"
+        import unicodedata
+        slug = preset.metadata.name.lower()
+        slug = unicodedata.normalize('NFKD', slug).encode('ascii', 'ignore').decode('ascii')
+        slug = re.sub(r'[^\w\s-]', '', slug)
+        slug = re.sub(r'[-\s]+', '_', slug)
+        preset_path = self.preset_dir / f"{slug}.json"
         with open(preset_path, "w") as f:
             json.dump(preset.to_dict(), f, indent=2)
 

@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QStatusBar, QMenuBar, QMenu, QToolBar,
     QGroupBox, QScrollArea, QListWidget,
     QProgressBar, QSlider, QComboBox,
+    QApplication,
 )
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal
 from PyQt6.QtGui import QAction, QImage, QPixmap, QKeySequence
@@ -28,6 +29,7 @@ from src.modules.sharpening import HighPassSharpening
 from src.modules.clahe import CLAHEProcessor
 from src.ai.auto_enhance import AutoEnhancer
 from src.ai.enhancement import ImageEnhancer
+from src.ai.chibi import ChibiTransformer
 from src.modules.iqa import ImageQualityAssessment
 from src.modules.preset import PresetManager
 from src.modules.queue import ProcessingQueue
@@ -191,6 +193,7 @@ class MainWindow(QMainWindow):
         self._view_mode = "current"
         self._menu_items = {}
         self._color_reference_path = None
+        self._color_reference_image = None
 
         self._setup_ui()
         self._create_menu()
@@ -340,6 +343,8 @@ class MainWindow(QMainWindow):
 
         self.compare_layout.addWidget(self.original_viewer)
         self.compare_layout.addWidget(self.current_viewer)
+        self.compare_layout.setStretch(0, 1)
+        self.compare_layout.setStretch(1, 1)
 
         self.single_viewer = ImageViewer()
         self.single_viewer.fileDropped.connect(self._on_file_dropped)
@@ -368,7 +373,8 @@ class MainWindow(QMainWindow):
         for name in self.preset_manager.list_presets():
             info = self.preset_manager.get_preset_info(name)
             if info:
-                self.preset_list.addItem(f"{info['name']}")
+                en_name = info['name'].split(' / ')[0] if ' / ' in info['name'] else info['name']
+                self.preset_list.addItem(en_name)
         self.preset_list.itemDoubleClicked.connect(self._apply_selected_preset)
         presets_layout.addWidget(self.preset_list)
 
@@ -414,6 +420,17 @@ class MainWindow(QMainWindow):
         color_layout = QVBoxLayout()
         color_layout.setSpacing(5)
 
+        self.reference_viewer = ImageViewer(t("reference"))
+        self.reference_viewer.setMinimumHeight(120)
+        self.reference_viewer.fileDropped.connect(self._on_reference_dropped)
+        color_layout.addWidget(self.reference_viewer)
+
+        self.ref_progress = QProgressBar()
+        self.ref_progress.setMaximumHeight(10)
+        self.ref_progress.setTextVisible(False)
+        self.ref_progress.setVisible(False)
+        color_layout.addWidget(self.ref_progress)
+
         self.color_info_label = QLabel(t("select_reference"))
         self.color_info_label.setWordWrap(True)
         self.color_info_label.setStyleSheet("font-size: 9px; color: #888;")
@@ -440,10 +457,26 @@ class MainWindow(QMainWindow):
         color_group.setLayout(color_layout)
         layout.addWidget(color_group)
 
+        chibi_group = QGroupBox(t("chibi_transform"))
+        chibi_group.setStyleSheet("QGroupBox { font-weight: bold; }")
+        chibi_layout = QVBoxLayout()
+        chibi_layout.setSpacing(5)
+
+        self.chibi_transformer = ChibiTransformer()
+
+        self.apply_chibi_btn = QPushButton(t("apply_chibi"))
+        self.apply_chibi_btn.clicked.connect(self._apply_chibi_transform)
+        self.apply_chibi_btn.setMinimumHeight(35)
+        chibi_layout.addWidget(self.apply_chibi_btn)
+
+        chibi_group.setLayout(chibi_layout)
+        layout.addWidget(chibi_group)
+
         layout.addStretch()
         return widget
 
     def _on_view_mode_changed(self, mode: str):
+        old_mode = self._view_mode
         self._view_mode = mode.lower()
 
         if self._view_mode == "current":
@@ -459,6 +492,8 @@ class MainWindow(QMainWindow):
             elif self._view_mode == "original":
                 self.original_viewer.setVisible(True)
                 self.current_viewer.setVisible(False)
+
+        self._update_views()
 
     def _create_menu(self):
         menubar = self.menuBar()
@@ -604,6 +639,17 @@ class MainWindow(QMainWindow):
         self._labels["presets_group"].setTitle(t("presets"))
         self.apply_preset_btn.setText(t("apply"))
 
+        current_lang = I18n.get_language()
+        self.preset_list.clear()
+        for name in self.preset_manager.list_presets():
+            info = self.preset_manager.get_preset_info(name)
+            if info:
+                if current_lang == "vi" and ' / ' in info['name']:
+                    display_name = info['name'].split(' / ')[1]
+                else:
+                    display_name = info['name'].split(' / ')[0]
+                self.preset_list.addItem(display_name)
+
         self._labels["batch_group"].setTitle(t("batch_processing"))
         self.batch_btn.setText(t("add_folder"))
         self.process_queue_btn.setText(t("process_queue"))
@@ -681,8 +727,12 @@ class MainWindow(QMainWindow):
         elif self._view_mode == "original":
             self.original_viewer.set_image(self.original_image)
         elif self._view_mode == "split":
-            self.original_viewer.set_image(self.original_image)
-            self.current_viewer.set_image(self.current_image)
+            orig = self.original_image if self.original_image is not None else self.current_image
+            self.original_viewer.set_image(orig)
+            if self.current_image is not None:
+                self.current_viewer.set_image(self.current_image)
+            else:
+                self.current_viewer.set_image(orig)
 
     def _show_original(self):
         if self.original_image is not None:
@@ -695,7 +745,6 @@ class MainWindow(QMainWindow):
             self.original_image = self.processor.load_image(file_path)
             self.current_image = self.original_image.copy()
             
-            # Keep current view mode, just update images
             current_mode = self._view_mode
             if current_mode == "current":
                 self.single_viewer.set_image(self.current_image)
@@ -707,6 +756,43 @@ class MainWindow(QMainWindow):
             self._update_quality_metrics()
             self.status_bar.showMessage(t("opened", file_path))
         except Exception as e:
+            QMessageBox.critical(self, t("error"), t("failed_open", str(e)))
+
+    def _on_reference_dropped(self, file_path: str):
+        try:
+            file_path = os.path.abspath(file_path)
+            ref_image = self.processor.load_image(file_path)
+            
+            self._color_reference_image = ref_image
+            self.reference_viewer.set_image(ref_image)
+            
+            self.color_transfer.learn_from_image(ref_image)
+            self._color_reference_path = file_path
+            
+            self.ref_progress.setVisible(True)
+            self.ref_progress.setValue(100)
+            QApplication.processEvents()
+            
+            palette = self.color_transfer.source_palette
+            info_parts = [
+                f"{t('temperature')}: {t(palette.temperature)}",
+                f"{t('saturation')}: {palette.saturation:.0%}",
+                f"{t('brightness')}: {palette.brightness:.0f}",
+                "",
+                f"{t('dominant_colors')}:"
+            ]
+            for i, color in enumerate(palette.dominant_colors[:3]):
+                info_parts.append(f"  {i+1}. RGB({color[0]}, {color[1]}, {color[2]})")
+            
+            self.color_info_label.setText("\n".join(info_parts))
+            self.apply_color_btn.setEnabled(True)
+            
+            QMessageBox.information(self, t("reference_loaded_title"), f"{t('analysis_complete')}\n\n{t('temperature')}: {t(palette.temperature)}\n{t('saturation')}: {palette.saturation:.0%}\n{t('brightness')}: {palette.brightness:.0f}")
+            
+            self.status_bar.showMessage(t("reference_loaded", file_path))
+            self.ref_progress.setVisible(False)
+        except Exception as e:
+            self.ref_progress.setVisible(False)
             QMessageBox.critical(self, t("error"), t("failed_open", str(e)))
 
     def _apply_selected_preset(self):
@@ -824,14 +910,25 @@ class MainWindow(QMainWindow):
 
         if file_path:
             try:
+                self.ref_progress.setVisible(True)
+                self.ref_progress.setValue(30)
+                QApplication.processEvents()
+                
                 file_path = os.path.abspath(file_path)
                 ref_image = self.processor.load_image(file_path)
                 
-                # Learn colors from reference
+                self.ref_progress.setValue(60)
+                QApplication.processEvents()
+                
+                self._color_reference_image = ref_image
+                self.reference_viewer.set_image(ref_image)
+                
                 self.color_transfer.learn_from_image(ref_image)
                 self._color_reference_path = file_path
                 
-                # Update UI
+                self.ref_progress.setValue(100)
+                QApplication.processEvents()
+                
                 palette = self.color_transfer.source_palette
                 info_parts = [
                     f"{t('temperature')}: {t(palette.temperature)}",
@@ -846,7 +943,6 @@ class MainWindow(QMainWindow):
                 self.color_info_label.setText("\n".join(info_parts))
                 self.apply_color_btn.setEnabled(True)
                 
-                # Show notification
                 info_text = f"{t('analysis_complete')}\n\n"
                 info_text += f"{t('temperature')}: {t(palette.temperature)}\n"
                 info_text += f"{t('saturation')}: {palette.saturation:.0%}\n"
@@ -854,7 +950,9 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(self, t("reference_loaded_title"), info_text)
                 
                 self.status_bar.showMessage(t("reference_loaded", file_path))
+                self.ref_progress.setVisible(False)
             except Exception as e:
+                self.ref_progress.setVisible(False)
                 QMessageBox.critical(self, t("error"), t("failed_open", str(e)))
 
     def _apply_color_transfer(self):
@@ -882,9 +980,26 @@ class MainWindow(QMainWindow):
         self.color_transfer = ColorTransfer()
         self.color_analyzer = ColorAnalyzer()
         self._color_reference_path = None
+        self._color_reference_image = None
+        self.reference_viewer.clear()
         self.color_info_label.setText(t("select_reference"))
         self.apply_color_btn.setEnabled(False)
         self.status_bar.showMessage(t("reference_cleared"))
+
+    def _apply_chibi_transform(self):
+        """Apply Chibi transformation to current image."""
+        if self.original_image is None:
+            QMessageBox.warning(self, t("warning"), t("no_image_selected"))
+            return
+        try:
+            result = self.chibi_transformer.transform(self.original_image)
+            self.current_image = result
+            self._update_views()
+            self._update_quality_metrics()
+            QMessageBox.information(self, t("chibi_transform"), t("chibi_applied"))
+            self.status_bar.showMessage(t("chibi_applied"))
+        except Exception as e:
+            QMessageBox.warning(self, t("warning"), str(e))
 
     def zoom_in(self):
         self.status_bar.showMessage(t("zoom_in"))

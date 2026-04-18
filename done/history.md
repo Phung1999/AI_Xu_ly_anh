@@ -103,6 +103,9 @@
 | 2026-04-17 | Fix | Notifications | Completed | Popup dialogs |
 | 2026-04-17 | Fix | Color Transfer Bug | Completed | Luminance calc |
 | 2026-04-17 | 5.1-5.5 | Polish | Completed | **PROJECT COMPLETE** |
+| 2026-04-18 | Feature | Chibi Transform | Completed | Face detector + transformer |
+| 2026-04-18 | Feature | Chibi UI | Completed | Apply button in panel |
+| 2026-04-18 | Fix | Split View | Completed | Current viewer update |
 
 ---
 

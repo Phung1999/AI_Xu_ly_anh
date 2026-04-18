@@ -1,6 +1,6 @@
 """
 Internationalization Module
-Multi-language support: English, Vietnamese with bilingual labels
+Multi-language support: English, Vietnamese
 """
 
 from typing import Dict
@@ -32,36 +32,36 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "english": "English",
         "vietnamese": "Vietnamese",
         
-        # Panels - with EN/VI
-        "white_balance": "White Balance / Cân Bằng Trắng",
-        "temperature": "Temperature / Nhiệt Độ",
-        "tint": "Tint / Sắc Độ",
+        # Panels
+        "white_balance": "White Balance",
+        "temperature": "Temperature",
+        "tint": "Tint",
         
-        "levels": "Levels / Mức",
-        "shadows": "Shadows / Bóng Tối",
-        "midtone_gamma": "Midtones (Gamma) / Tông Trung",
-        "highlights": "Highlights / Vùng Sáng",
+        "levels": "Levels",
+        "shadows": "Shadows",
+        "midtone_gamma": "Midtones (Gamma)",
+        "highlights": "Highlights",
         
-        "sharpening": "Sharpening / Tăng Nét",
-        "sharpness": "Sharpness / Độ Nét",
+        "sharpening": "Sharpening",
+        "sharpness": "Sharpness",
         
-        "local_contrast": "Local Contrast / Tương Phản Cục Bộ",
-        "clip_limit": "Clip Limit / Giới Hạn Cắt",
+        "local_contrast": "Local Contrast",
+        "clip_limit": "Clip Limit",
         
-        "presets": "Presets / Cài Đặt Sẵn",
-        "apply": "Apply / Áp Dụng",
+        "presets": "Presets",
+        "apply": "Apply",
         
-        "batch_processing": "Batch Processing / Xử Lý Hàng Loạt",
-        "add_folder": "Add Folder / Thêm Thư Mục",
-        "process_queue": "Process Queue / Xử Lý Hàng Đợi",
+        "batch_processing": "Batch Processing",
+        "add_folder": "Add Folder",
+        "process_queue": "Process Queue",
         
-        "quality_metrics": "Quality Metrics / Chỉ Số Chất Lượng",
-        "load_image_quality": "Load an image to see quality metrics / Mở ảnh để xem chỉ số",
+        "quality_metrics": "Quality Metrics",
+        "load_image_quality": "Load an image to see quality metrics",
         
         # Buttons
-        "split_view": "Split View / Chia Màn",
-        "show_original": "Original / Ảnh Gốc",
-        "current": "Current / Hiện Tại",
+        "split_view": "Split View",
+        "show_original": "Original",
+        "current": "Current",
         
         # Status
         "ready": "Ready",
@@ -83,7 +83,7 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "no_image_selected": "No image selected",
         
         # Image viewer
-        "drop_image": "Drop image here or click Open\nKéo ảnh vào đây hoặc click Mở",
+        "drop_image": "Drop image here or click Open",
         
         # Toolbar
         "toolbar_title": "Main Toolbar",
@@ -94,25 +94,30 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "view_split": "Split",
         
         # Color Reference Panel
-        "color_reference": "Color Reference / Màu Tham Chiếu",
-        "select_reference": "Select Reference / Chọn Ảnh Tham Chiếu",
-        "load_reference": "Load Reference / Tải Ảnh Tham Chiếu",
-        "apply_color": "Apply Color / Áp Dụng Màu",
-        "clear_reference": "Clear / Xóa",
+        "color_reference": "Color Reference",
+        "reference": "Reference",
+        "select_reference": "Select Reference Image",
+        "load_reference": "Load Reference",
+        "apply_color": "Apply Color",
+        "clear_reference": "Clear",
         "reference_loaded": "Reference loaded: {}",
         "reference_loaded_title": "Color Analysis Complete",
         "reference_cleared": "Reference cleared",
         "no_image_to_apply": "No image loaded to apply color",
-        "palette_analysis": "Palette Analysis / Phân Tích Bảng Màu",
-        "temperature": "Temperature / Nhiệt Độ",
-        "saturation": "Saturation / Độ Bão Hòa",
-        "brightness": "Brightness / Độ Sáng",
-        "warm": "Warm / Ấm",
-        "cool": "Cool / Lạnh",
-        "neutral": "Neutral / Trung Tính",
-        "dominant_colors": "Dominant Colors / Màu Chủ Đạo",
+        "palette_analysis": "Palette Analysis",
+        "saturation": "Saturation",
+        "brightness": "Brightness",
+        "warm": "Warm",
+        "cool": "Cool",
+        "neutral": "Neutral",
+        "dominant_colors": "Dominant Colors",
         "analysis_complete": "Color analysis complete!",
         "color_applied": "Color applied successfully!",
+
+        # Chibi Panel
+        "chibi_transform": "Chibi Transform",
+        "apply_chibi": "Apply Chibi",
+        "chibi_applied": "Chibi transformation applied!",
     },
     
     "vi": {
@@ -141,36 +146,36 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "english": "Tiếng Anh",
         "vietnamese": "Tiếng Việt",
         
-        # Panels - with EN/VI
-        "white_balance": "White Balance / Cân Bằng Trắng",
-        "temperature": "Temperature / Nhiệt Độ",
-        "tint": "Tint / Sắc Độ",
+        # Panels
+        "white_balance": "Cân Bằng Trắng",
+        "temperature": "Nhiệt Độ",
+        "tint": "Sắc Độ",
         
-        "levels": "Levels / Mức",
-        "shadows": "Shadows / Bóng Tối",
-        "midtone_gamma": "Midtones (Gamma) / Tông Trung",
-        "highlights": "Highlights / Vùng Sáng",
+        "levels": "Mức",
+        "shadows": "Bóng Tối",
+        "midtone_gamma": "Tông Trung",
+        "highlights": "Vùng Sáng",
         
-        "sharpening": "Sharpening / Tăng Nét",
-        "sharpness": "Sharpness / Độ Nét",
+        "sharpening": "Tăng Nét",
+        "sharpness": "Độ Nét",
         
-        "local_contrast": "Local Contrast / Tương Phản Cục Bộ",
-        "clip_limit": "Clip Limit / Giới Hạn Cắt",
+        "local_contrast": "Tương Phản Cục Bộ",
+        "clip_limit": "Giới Hạn Cắt",
         
-        "presets": "Presets / Cài Đặt Sẵn",
-        "apply": "Apply / Áp Dụng",
+        "presets": "Cài Đặt Sẵn",
+        "apply": "Áp Dụng",
         
-        "batch_processing": "Batch Processing / Xử Lý Hàng Loạt",
-        "add_folder": "Add Folder / Thêm Thư Mục",
-        "process_queue": "Process Queue / Xử Lý Hàng Đợi",
+        "batch_processing": "Xử Lý Hàng Loạt",
+        "add_folder": "Thêm Thư Mục",
+        "process_queue": "Xử Lý Hàng Đợi",
         
-        "quality_metrics": "Quality Metrics / Chỉ Số Chất Lượng",
-        "load_image_quality": "Load an image to see quality metrics / Mở ảnh để xem chỉ số",
+        "quality_metrics": "Chỉ Số Chất Lượng",
+        "load_image_quality": "Mở ảnh để xem chỉ số",
         
         # Buttons
-        "split_view": "Split View / Chia Màn",
-        "show_original": "Original / Ảnh Gốc",
-        "current": "Current / Hiện Tại",
+        "split_view": "Chia Màn",
+        "show_original": "Ảnh Gốc",
+        "current": "Hiện Tại",
         
         # Status
         "ready": "Sẵn Sàng",
@@ -192,7 +197,7 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "no_image_selected": "Chưa chọn ảnh",
         
         # Image viewer
-        "drop_image": "Drop image here or click Open\nKéo ảnh vào đây hoặc click Mở",
+        "drop_image": "Kéo ảnh vào đây hoặc click Mở",
         
         # Toolbar
         "toolbar_title": "Thanh Công Cụ",
@@ -203,25 +208,30 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
         "view_split": "Chia Màn",
         
         # Color Reference Panel
-        "color_reference": "Color Reference / Màu Tham Chiếu",
-        "select_reference": "Select Reference / Chọn Ảnh Tham Chiếu",
-        "load_reference": "Load Reference / Tải Ảnh Tham Chiếu",
-        "apply_color": "Apply Color / Áp Dụng Màu",
-        "clear_reference": "Clear / Xóa",
-        "reference_loaded": "Reference loaded: {}",
+        "color_reference": "Màu Tham Chiếu",
+        "reference": "Tham Chiếu",
+        "select_reference": "Chọn Ảnh Tham Chiếu",
+        "load_reference": "Tải Ảnh Tham Chiếu",
+        "apply_color": "Áp Dụng Màu",
+        "clear_reference": "Xóa",
+        "reference_loaded": "Đã tải tham chiếu: {}",
         "reference_loaded_title": "Phân Tích Màu Hoàn Tất",
         "reference_cleared": "Đã xóa tham chiếu",
         "no_image_to_apply": "Chưa có ảnh để áp dụng màu",
-        "palette_analysis": "Palette Analysis / Phân Tích Bảng Màu",
-        "temperature": "Temperature / Nhiệt Độ",
-        "saturation": "Saturation / Độ Bão Hòa",
-        "brightness": "Brightness / Độ Sáng",
-        "warm": "Warm / Ấm",
-        "cool": "Cool / Lạnh",
-        "neutral": "Neutral / Trung Tính",
-        "dominant_colors": "Dominant Colors / Màu Chủ Đạo",
+        "palette_analysis": "Phân Tích Bảng Màu",
+        "saturation": "Độ Bão Hòa",
+        "brightness": "Độ Sáng",
+        "warm": "Ấm",
+        "cool": "Lạnh",
+        "neutral": "Trung Tính",
+        "dominant_colors": "Màu Chủ Đạo",
         "analysis_complete": "Phân tích màu hoàn tất!",
         "color_applied": "Áp dụng màu thành công!",
+
+        # Chibi Panel
+        "chibi_transform": "Biến Đổi Chibi",
+        "apply_chibi": "Áp Dụng Chibi",
+        "chibi_applied": "Đã biến đổi Chibi!",
     }
 }
 

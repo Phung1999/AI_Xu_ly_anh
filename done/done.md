@@ -1,6 +1,6 @@
 # DONE - Những gì đã hoàn thành
 
-## 📅 Cập nhật lần cuối: 2026-04-17
+## 📅 Cập nhật lần cuối: 2026-04-18
 
 ---
 
@@ -58,7 +58,7 @@
 - [x] **14 tests passed**
 
 ### Task 2.5: Unit Tests Phase 2 ✅
-- [x] Total: **113/113 tests PASSED**
+- [x] Total: **128/128 tests PASSED**
 
 ---
 
@@ -150,7 +150,7 @@
 - [x] `run.py`, `run.bat`, `run_cli.bat`
 
 ### Task 5.4: Integration Testing ✅
-- [x] **113/113 tests PASSED**
+- [x] **128/128 tests PASSED**
 
 ### Task 5.5: CLI & Finalization ✅
 - [x] `scripts/cli.py`
@@ -164,7 +164,7 @@
 | Tổng số tasks | 30 |
 | Đã hoàn thành | **30** |
 | **Tiến độ** | **100%** |
-| **Tests** | **113/113 PASSED** |
+| **Tests** | **128/128 PASSED** |
 
 ---
 
@@ -180,20 +180,34 @@
 | **Phase 4 COMPLETED** | 2026-04-17 | **UI với i18n + Color Grading** |
 | **Phase 5 COMPLETED** | 2026-04-17 | **Polished** |
 | **PROJECT COMPLETE** | 2026-04-17 | **100%** |
+| Chibi Transformation | 2026-04-18 | FaceDetector + Transformer + UI |
 
 ---
 
 ## 🔄 RECENT COMPLETIONS
 
 ```
-2026-04-17: [Phase 4.6] Drag & Drop Support ✅
-2026-04-17: [Phase 4.7] Multi-language EN/VI ✅
-2026-04-17: [Phase 4.8] Color Reference / Color Grading ✅
-2026-04-17: [Fix] Fullscreen khi khởi động ✅
-2026-04-17: [Fix] Thông báo phân tích/áp dụng màu ✅
-2026-04-17: [Fix] Color transfer bug (luminance calculation) ✅
-2026-04-17: [Fix] Vietnamese path support ✅
-2026-04-17: [Fix] Split view drop fixed ✅
+2026-04-18: [Phase 4.6] Drag & Drop Support ✅
+2026-04-18: [Phase 4.7] Multi-language EN/VI ✅
+2026-04-18: [Phase 4.8] Color Reference / Color Grading ✅
+2026-04-18: [Fix] Fullscreen khi khởi động ✅
+2026-04-18: [Fix] Thông báo phân tích/áp dụng màu ✅
+2026-04-18: [Fix] Color transfer bug (luminance calculation) ✅
+2026-04-18: [Fix] Vietnamese path support ✅
+2026-04-18: [Fix] Split view drop fixed ✅
+2026-04-18: [Fix] Split view - giữ ảnh khi chuyển mode ✅
+2026-04-18: [Fix] Split view - hai khung đều nhau ✅
+2026-04-18: [Feature] Thêm khung preview ảnh tham chiếu ✅
+2026-04-18: [Feature] Progress bar khi load ảnh tham chiếu ✅
+2026-04-18: [Feature] Drag & drop cho ảnh tham chiếu ✅
+2026-04-18: [Feature] Thêm 10 presets theo chủ đề (theme) ✅
+2026-04-18: [Feature] Presets hiện theo ngôn ngữ chọn ✅
+2026-04-18: [Feature] Module Chibi transformation ✅
+            - src/ai/chibi/settings.py (ChibiSettings dataclass)
+            - src/ai/chibi/face_detector.py (FaceDetector với Haar Cascade)
+            - src/ai/chibi/transformer.py (ChibiTransformer)
+            - tests/test_chibi.py (15 tests PASSED)
+            - UI: Nút Apply Chibi trong panel
 ```
 
 ---
@@ -224,7 +238,7 @@ src/
     ├── main_window.py       - PyQt6 UI (~900 lines, fullscreen)
     └── i18n.py              - EN/VI translations
 
-tests/                        - 113 tests (ALL PASSED)
+tests/                        - 128 tests (ALL PASSED)
 docs/                         - TECHNICAL.md, USER_MANUAL.md
 scripts/                      - build.py, cli.py
 run.py, run.bat, run_cli.bat  - Entry points
