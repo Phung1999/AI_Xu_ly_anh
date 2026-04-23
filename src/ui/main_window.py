@@ -464,6 +464,14 @@ class MainWindow(QMainWindow):
 
         self.chibi_transformer = ChibiTransformer()
 
+        style_label = QLabel(t("anime_style"))
+        chibi_layout.addWidget(style_label)
+
+        self.anime_style_combo = QComboBox()
+        self.anime_style_combo.addItems(self.chibi_transformer.get_available_styles())
+        self.anime_style_combo.setCurrentText("Hayao")
+        chibi_layout.addWidget(self.anime_style_combo)
+
         self.apply_chibi_btn = QPushButton(t("apply_chibi"))
         self.apply_chibi_btn.clicked.connect(self._apply_chibi_transform)
         self.apply_chibi_btn.setMinimumHeight(35)
@@ -992,7 +1000,8 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, t("warning"), t("no_image_selected"))
             return
         try:
-            result = self.chibi_transformer.transform(self.original_image)
+            style = self.anime_style_combo.currentText()
+            result = self.chibi_transformer.transform_with_style(self.original_image, style)
             self.current_image = result
             self._update_views()
             self._update_quality_metrics()

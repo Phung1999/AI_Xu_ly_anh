@@ -1,6 +1,6 @@
 # DONE - Những gì đã hoàn thành
 
-## 📅 Cập nhật lần cuối: 2026-04-18
+## 📅 Cập nhật lần cuối: 2026-04-23
 
 ---
 
@@ -187,6 +187,25 @@
 ## 🔄 RECENT COMPLETIONS
 
 ```
+2026-04-23: [Feature] AnimeGANv3 Module ✅
+           - src/ai/anime/anime_gan.py (AnimeGANv3 ONNX loader)
+           - src/ai/anime/__init__.py
+           - Model: Hayao, Shinkai (Paprika 404 - removed)
+           - Auto-download from GitHub releases
+           - CPU optimization
+           - Fixed input format: (B, H, W, C)
+2026-04-23: [Feature] ChibiTransformer updated ✅
+           - Uses AnimeGANv3 instead of OpenCV-only
+           - Support set_style() method
+           - transform_with_style() method
+2026-04-23: [Feature] Anime Style dropdown in UI ✅
+           - ComboBox chọn Hayao/Shinkai
+           - i18n: "anime_style" label EN/VI
+           - Apply với style đã chọn
+2026-04-23: [Feature] Tests + Image test ✅
+           - tests/test_anime_gan.py (10 tests, 6 passed)
+           - Real image test: PASSED
+           - Output: result_hayao.png, result_shinkai.png
 2026-04-18: [Phase 4.6] Drag & Drop Support ✅
 2026-04-18: [Phase 4.7] Multi-language EN/VI ✅
 2026-04-18: [Phase 4.8] Color Reference / Color Grading ✅
@@ -232,13 +251,20 @@ src/
 │
 ├── ai/
 │   ├── enhancement.py        - SR models + IQA
-│   └── auto_enhance.py      - Auto enhancement
+│   ├── auto_enhance.py      - Auto enhancement
+│   ├── anime/              - AnimeGANv3 ONNX
+│   │   ├── anime_gan.py     - AnimeGANv3 loader
+│   │   └── __init__.py
+│   └── chibi/              - Chibi transformation
+│       ├── transformer.py   - ChibiTransformer (updated)
+│       ├── face_detector.py - FaceDetector
+│       └── settings.py    - ChibiSettings
 │
 └── ui/
     ├── main_window.py       - PyQt6 UI (~900 lines, fullscreen)
     └── i18n.py              - EN/VI translations
 
-tests/                        - 128 tests (ALL PASSED)
+tests/                        - 128+ tests
 docs/                         - TECHNICAL.md, USER_MANUAL.md
 scripts/                      - build.py, cli.py
 run.py, run.bat, run_cli.bat  - Entry points
@@ -268,3 +294,20 @@ run_cli.bat input/ -o output/ --preset auto  # CLI
 - **Batch processing**
 - **CLI support**
 - **Thông báo popup** khi phân tích/áp dụng màu
+- **AnimeGANv3** - Chuyển ảnh sang anime style (Hayao, Shinkai)
+- **Chibi Transform** - Anime style transfer (CPU-friendly)
+
+---
+
+## ⚠️ CẦN CẢI THIỆN / TODO
+
+### Cần GPU để có Chibi đúng nghĩa:
+- AnimeGANv3 hiện tại chỉ là **style transfer**, không phải chibi generation
+- Để có chibi đúng nghĩa (big head, small body, tai quỷ, dark aura) cần:
+  - Stable Diffusion + ControlNet (cần GPU NVIDIA RTX 3060+)
+  - Hoặc Midjourney API (trả phí)
+
+### Hiện tại (CPU 4GB RAM):
+- ✅ Anime style transfer (Hayao - Ghibli style)
+- ✅ Anime style transfer (Shinkai - Makoto Shinkai style)
+- ⚠️ Không thể tạo chibi đúng nghĩa (cần GPU)

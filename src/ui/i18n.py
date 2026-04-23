@@ -116,6 +116,7 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
 
         # Chibi Panel
         "chibi_transform": "Chibi Transform",
+        "anime_style": "Anime Style",
         "apply_chibi": "Apply Chibi",
         "chibi_applied": "Chibi transformation applied!",
     },
@@ -230,6 +231,7 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {
 
         # Chibi Panel
         "chibi_transform": "Biến Đổi Chibi",
+        "anime_style": "Phong Cách Anime",
         "apply_chibi": "Áp Dụng Chibi",
         "chibi_applied": "Đã biến đổi Chibi!",
     }

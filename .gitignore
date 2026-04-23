@@ -1,0 +1,27 @@
+# Build outputs
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models (download at runtime)
+models/
+*.onnx
+
+# Test outputs
+tests/fixtures/result*.png
